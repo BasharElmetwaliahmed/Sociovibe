@@ -1,12 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { auth } from "../_lib/auth";
 import { changeFollowings } from "../_lib/services";
 import FollowButton from "./FollowButton";
 
 async function UserItemList({ user, following, userId }) {
   const followed = following.find(
-    (currUser) => currUser.following_id === user.id
+    (currUser) => currUser.id === user.id
   );
 
   return (

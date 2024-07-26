@@ -130,3 +130,10 @@ export const editPostAction = async (post, formData) => {
   revalidatePath(`/post/${post.id}/edit`);
   redirect("/");
 };
+
+
+
+export const updateSettingsAction = async (formData) => {
+  const fullName = formData.get('fullName');
+  const bio = formData.get('bio');
+};

@@ -8,7 +8,7 @@ export default async function PageLayout({ children }) {
   const session = await auth();
   return (
     <SessionProvider session={session}>
-      <div className="min-h-screen">
+      <div className="min-h-screen  dark:bg-black dark:text-white">
         <nav className=" py-6  fixed w-screen md:px-0 px-2   border-b-lightDark border-b-[2px] top-0 bg-dark  z-10 left-1/2 -translate-x-1/2">
           <div className="container flex mx-auto justify-between ">
             <Logo />
@@ -18,7 +18,7 @@ export default async function PageLayout({ children }) {
         <side>
           <Navbar />
         </side>
-        <main className="w-full md:max-w-[500px] lg:max-w-[700px] xl:max-w-[900px] mb-20 mt-[105px] md:left-[250px] relative  ">
+        <main className="w-full md:max-w-[500px] lg:max-w-[700px] xl:max-w-[900px] mb-20 md:mb-0 mt-[91px] md:mt-[105px] md:left-[250px] relative  ">
           {children}
         </main>
       </div>

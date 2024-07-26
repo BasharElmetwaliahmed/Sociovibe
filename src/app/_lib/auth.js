@@ -15,8 +15,8 @@ const authConfig = {
     },
     signIn: async ({ user, account, profile }) => {
       try {
-        const existedGuest = await getUser(user.email);
-        if (!existedGuest)
+        const existeduser = await getUser(user.email);
+        if (!existeduser)
           await createUser({
             email: user.email,
             fullName: user.name,
@@ -28,13 +28,15 @@ const authConfig = {
         return false;
       }
     },
-    session: async ({ session, user }) => {
-      const guest = await getUser(session.user.email);
-      const following  = await getFollowing(guest.id);
-      session.user.userId = guest.id;
-      session.user.avatar = guest.avatar
+    session: async ({ session }) => {
+      const user = await getUser(session.user.email);
+      const following = await getFollowing(user.id);
+      session.user.userId = user.id;
+      session.user.avatar = user.avatar;
+      session.user.bio = user.bio
+      session.user.fullName = user.fullName
       session.user.following = following ?? [];
-      session.user.bookmarks = guest?.bookmarks ?? [];
+      session.user.bookmarks = user?.bookmarks ?? [];
 
       return session;
     },

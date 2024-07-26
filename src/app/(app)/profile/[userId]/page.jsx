@@ -5,9 +5,9 @@ import { getUserProfileWithStats } from "@/app/_lib/services";
 async function Page({params}) {
   const user = await getUserProfileWithStats(params.userId);
   return (
-    <>
+    <div className="-mt-[15px]">
     <Profile user={user}/>
-    </>
+    </div>
     
   );
 }

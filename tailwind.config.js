@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
+
+  plugins: [require("@tailwindcss/forms")],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -14,7 +17,6 @@ module.exports = {
         lightBlue: "#AAB8C2", // Light blue color for text and icons
         darkBlue: "#1B95E0", // Darker shade of Twitter blue
       },
-    
     },
   },
   plugins: [],

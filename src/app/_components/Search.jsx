@@ -45,7 +45,7 @@ function Search() {
         type="text"
         placeholder="search for user"
         id="search"
-        className="bg-transparent py-2 pl-10 pr-4  border-2 border-transparent focus:border-blue focus:text-blue transition-all duration-300 rounded-md outline-none"
+        className="w-full bg-transparent py-2 pl-10 pr-4  border-2 border-transparent focus:border-blue focus:text-blue transition-all duration-300 rounded-md outline-none"
       />
     </form>
   );

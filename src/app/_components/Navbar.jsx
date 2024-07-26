@@ -27,7 +27,7 @@ function Navbar() {
     },
     {
       icon: <Cog6ToothIcon className={iconSize} />,
-      to: "/user/settings",
+      to: "/settings",
       label: "Settings",
     },
     {

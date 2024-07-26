@@ -28,7 +28,6 @@ export const searchUsers = async (search) => {
 
 
 export const getFollowers = async (userId, fullData = false, top = false) => {
-  // Fetch the follower IDs
   let query = supabase
     .from("following")
     .select("follower_id")
@@ -63,28 +62,41 @@ export const getFollowers = async (userId, fullData = false, top = false) => {
 
   return followersDetails
 };
-export const getFollowing = async (userId) => {
-  const { data: following, error: followingsError } = await supabase
+export const getFollowing = async (userId, fullData = true, top = false) => {
+  let query = supabase
     .from("following")
-    .select(
-      `
-      following_id,
-      users!following_id(
-        avatar,
-        fullName
-      )
-    `
-    )
+    .select("following_id")
     .eq("follower_id", userId);
 
-  if (followingsError) {
-    console.error("Error fetching following details:", followingsError);
+  if (top) {
+    query = query.limit(10);
+  }
+
+  const { data: following, error: followingError } = await query;
+
+  if (followingError) {
+    console.error("Error fetching following IDs:", followingError);
     return null;
   }
 
-  return following;
-};
+  if (!fullData) {
+    return following;
+  }
 
+  const followingIds = following.map((follow) => follow.following_id);
+
+  const { data: followingDetails, error: detailsError } = await supabase
+    .from("users")
+    .select("id, fullName, avatar")
+    .in("id", followingIds);
+
+  if (detailsError) {
+    console.error("Error fetching following details:", detailsError);
+    return null;
+  }
+
+  return followingDetails;
+};
 export const changeFollowings = async (formData) => {
   const followingUser = Number(formData.get("userId"));
   const session = await auth();
