@@ -25,6 +25,7 @@ function CreateEditPostForm({ post }) {
         <div className="w-10 h-10 relative">
           <Image
             src={session.user.avatar}
+            alt={session.user.fullName}
             fill
             className="aspect-auto rounded-full absolute "
           />

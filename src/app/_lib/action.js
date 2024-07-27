@@ -1,7 +1,8 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { z } from "zod";
+import { z, ZodError } from "zod";
+import { deleteUser, updateSettings } from "../services/settings";
 import { auth, signIn, signOut } from "./auth";
 import {
   addComment,
@@ -133,7 +134,7 @@ export const editPostAction = async (post, formData) => {
 };
 
 const settingsSchema = z.object({
-  fullName: z.coerce
+  fullName: z
     .string({
       message: "Full name must be string",
     })
@@ -142,6 +143,9 @@ const settingsSchema = z.object({
     })
     .min(6, {
       message: "Full Name is between (6,25) letters",
+    })
+    .regex(/^(?!\d+$).*/, {
+      message: "Full Name cannot be only digits",
     }),
 
   bio: z.coerce
@@ -153,15 +157,47 @@ const settingsSchema = z.object({
     })
     .min(6, {
       message: "Bio is between (6,25) letters",
+    })
+    .regex(/^(?!\d+$).*/, {
+      message: "Full Name cannot be only digits",
     }),
 });
 
-export const updateSettingsAction = async (formData) => {
-  const fullName = formData.get("fullName");
-  const bio = formData.get("bio");
-  const validated = settingsSchema.safeParse({
-    fullName,
-    bio,
-  });
-  console.log(validated.error.errors.flat());
+export const updateSettingsAction = async (prevState, formData) => {
+  try {
+    const fullName = formData.get("fullName");
+    const bio = formData.get("bio");
+    const id = formData.get("id");
+
+    const validated = settingsSchema.parse({
+      fullName,
+      bio,
+      id,
+    });
+
+    await updateSettings(id, validated);
+    revalidatePath("/");
+    redirect("/profile");
+  } catch (err) {
+    if (err instanceof ZodError) {
+      const validationErrors = {};
+      err.errors.forEach((error) => {
+        validationErrors[error.path[0]] = error.message;
+      });
+      return { message: "", ...validationErrors };
+    } else
+      return {
+        message: "error while update settings",
+        fullName: "",
+        bio: "",
+      };
+  }
+};
+
+export const deleteAccountAction = async () => {
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in!");
+
+  await deleteUser(session.user.userId);
+  redirect("/");
 };

@@ -23,7 +23,8 @@
     "react-dom": "^18",
     "react-loading-skeleton": "^3.4.0",
     "swiper": "^11.1.5",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zod-validation-error": "^3.3.0"
   },
   "devDependencies": {
     "eslint": "^8",

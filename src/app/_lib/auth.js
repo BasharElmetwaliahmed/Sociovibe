@@ -21,6 +21,8 @@ const authConfig = {
             email: user.email,
             fullName: user.name,
             avatar: user.image,
+            bio:"Hello , New Account !",
+            
           });
 
         return true;
