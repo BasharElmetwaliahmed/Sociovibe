@@ -22,7 +22,8 @@
     "react-content-loader": "^7.0.2",
     "react-dom": "^18",
     "react-loading-skeleton": "^3.4.0",
-    "swiper": "^11.1.5"
+    "swiper": "^11.1.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "eslint": "^8",

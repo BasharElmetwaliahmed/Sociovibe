@@ -1,6 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 import { auth, signIn, signOut } from "./auth";
 import {
   addComment,
@@ -131,9 +132,36 @@ export const editPostAction = async (post, formData) => {
   redirect("/");
 };
 
+const settingsSchema = z.object({
+  fullName: z.coerce
+    .string({
+      message: "Full name must be string",
+    })
+    .max(25, {
+      message: "Full Name is between (6,25) letters",
+    })
+    .min(6, {
+      message: "Full Name is between (6,25) letters",
+    }),
 
+  bio: z.coerce
+    .string({
+      message: "Bio must be String",
+    })
+    .max(60, {
+      message: "Bio is between (6,25) letters",
+    })
+    .min(6, {
+      message: "Bio is between (6,25) letters",
+    }),
+});
 
 export const updateSettingsAction = async (formData) => {
-  const fullName = formData.get('fullName');
-  const bio = formData.get('bio');
+  const fullName = formData.get("fullName");
+  const bio = formData.get("bio");
+  const validated = settingsSchema.safeParse({
+    fullName,
+    bio,
+  });
+  console.log(validated.error.errors.flat());
 };
