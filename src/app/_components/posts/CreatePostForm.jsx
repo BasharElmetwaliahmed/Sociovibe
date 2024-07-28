@@ -5,23 +5,39 @@ import UploadPhoto from "./UploadPhoto";
 import { useSession } from "next-auth/react";
 import { useFormState } from "react-dom";
 import SubmitButton from "./SubmitButton";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 function CreatePostForm() {
   const { data: session } = useSession();
-  const [response, submitForm] = useFormState(createPostAction, {
-    resetKey: "",
-    error: null,
-  });
+  const [resetKey, setResetKey] = useState("");
+  const [error,setError] = useState(false);
+
+  const clientAction = async (formData) => {
+    const result = await createPostAction(formData);
+    console.log(result);
+    if (result?.error) {
+      toast.error(result.message);
+      setError(true)
+    } else {
+      toast.success("post published successfully");
+      setResetKey(Math.random());
+      setError(false)
+    }
+  };
   return (
     <form
-      action={submitForm}
-      key={response.resetKey}
-      className="p-8 bg-lightDark rounded-md mb-6 border-transparent border-2 ">
+      action={clientAction}
+      key={resetKey}
+      className={`p-8 bg-lightDark rounded-md mb-6 ${
+        error ? "border-red-600" : "border-transparent"
+      }  border-2 `}>
       <div className="flex gap-4 items-start ">
         <div className="w-10 h-10 relative">
           <Image
             src={session.user.avatar}
             fill
+            alt={session.user.fullName}
             className="aspect-auto rounded-full absolute "
           />
         </div>

@@ -1,21 +1,19 @@
-import { HeartIcon, BookmarkIcon } from "@heroicons/react/24/solid";
+import { HeartIcon } from "@heroicons/react/24/solid";
 import {
   HeartIcon as HeartOutline,
   ChatBubbleBottomCenterIcon,
-  BookmarkIcon as BookmarkOutline,
 } from "@heroicons/react/24/outline";
-import { changeBookMarkAction, changeLikeAction } from "@/app/_lib/action";
+import { changeLikeAction } from "@/app/_lib/action";
 import { auth } from "@/app/_lib/auth";
 import { getCommentsCount } from "@/app/_lib/services";
 import SubmitButtonIcon from "./SubmitButtonIcon";
+import BookmarkButton from "./BookmarkButton";
 
 async function PostFooter({ post }) {
   const session = await auth();
   const commentCount = await getCommentsCount(post.id);
   const liked = post.likes?.includes(session.user.userId) ?? false;
   const bookmarked = session.user.bookmarks.includes(post.id);
-
-  console.log(post.likes)
 
   return (
     <div className="py-4 border-t-lightBlue border-t-[1px] pb-4 border-opacity-25 flex justify-between items-center">
@@ -42,20 +40,7 @@ async function PostFooter({ post }) {
           </button>
         </label>
       </div>
-      <form action={changeBookMarkAction}>
-        <input
-          type={"hidden"}
-          name={"post"}
-          value={`${post.id}%${bookmarked ? "1" : "0"}`}
-        />
-        <SubmitButtonIcon>
-          {bookmarked ? (
-            <BookmarkIcon className="size-6" />
-          ) : (
-            <BookmarkOutline className="size-6" />
-          )}
-        </SubmitButtonIcon>
-      </form>
+      <BookmarkButton bookmarked={bookmarked} postId={post.id} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import toast from "react-hot-toast";
 import { z, ZodError } from "zod";
 import { deleteUser, updateSettings } from "../services/settings";
 import { auth, signIn, signOut } from "./auth";
@@ -29,39 +30,43 @@ export const signOutAction = async () => {
   });
 };
 
-export const createPostAction = async (state, formData) => {
+export const createPostAction = async (formData) => {
   const file = formData.get("image");
-    const text = formData.get("text");
+  const text = formData.get("text");
 
-  let uploadedPhoto;
-  if(!file.size>0 && !text){
-    return {
-      ...state,error:true
+  try {
+    if (!file.size > 0 && !text.trim()) {
+      throw new Error("Please upload a photo or add content.");
     }
+
+    let uploadedPhoto = null;
+    if (file && file.name && file.size > 0) {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `${fileName}`;
+      uploadedPhoto = await uploadPhoto(file, filePath);
+    }
+
+    const session = await auth();
+    if (!session || !session.user) {
+      throw new Error("Authentication failed. Please log in again.");
+    }
+
+    await createPost(text, session.user.userId, uploadedPhoto);
+    revalidatePath("/");
+
+    return {
+      resetKey: Math.random(),
+      error: false,
+    };
+  } catch (error) {
+    console.error("Error in createPostAction:", error);
+    return {
+      error: true,
+      message: error.message || "An unexpected error occurred.",
+    };
   }
-
-
-  if (file && file.name && file.size > 0) {
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
-    const filePath = `${fileName}`;
-    uploadedPhoto = await uploadPhoto(file, filePath);
-  }
-
-  const session = await auth();
-
-  if (!text.trim() && !uploadedPhoto) return;
-
-  await createPost(text, session.user.userId, uploadedPhoto);
-  revalidatePath("/");
-
-  return {
-    ...state,
-    resetKey: Math.random(),
-    error:false,
-  };
 };
-
 export const changeLikeAction = async (formData) => {
   const session = await auth();
   const postLike = formData.get("post");
@@ -94,7 +99,7 @@ export const changeBookMarkAction = async (formData) => {
 
 export const deletePostAction = async (formData) => {
   const postId = formData.get("postId");
-  console.log(postId)
+  console.log(postId);
   await deletePost(postId);
   revalidatePath("/");
 };

@@ -26,7 +26,6 @@ export const searchUsers = async (search) => {
   return data;
 };
 
-
 export const getFollowers = async (userId, fullData = false, top = false) => {
   let query = supabase
     .from("following")
@@ -60,7 +59,7 @@ export const getFollowers = async (userId, fullData = false, top = false) => {
     return null;
   }
 
-  return followersDetails
+  return followersDetails;
 };
 export const getFollowing = async (userId, fullData = true, top = false) => {
   let query = supabase
@@ -212,7 +211,7 @@ export const deletePost = async (postId) => {
     .from("posts")
     .delete()
     .eq("id", postId);
-    if(error) console.log(error);
+  if (error) console.log(error);
 };
 
 export const addComment = async (comment, user_id, post_id) => {
@@ -262,6 +261,7 @@ export const getPostById = async (post_id) => {
           created_at,
           text,
           image,
+          user_id,
           users(fullName, avatar),
           likes
         `
