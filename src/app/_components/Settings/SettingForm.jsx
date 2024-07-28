@@ -5,6 +5,7 @@ import { updateSettingsAction } from "@/app/_lib/action";
 import { useSession } from "next-auth/react";
 import { useFormState } from "react-dom";
 import DeleteAccount from "./DeleteAccount";
+import { useFormStatus } from "react-dom";
 
 export default function SettingForm() {
   const auth = useSession();
@@ -43,13 +44,13 @@ export default function SettingForm() {
 }
 
 const SaveButton = () => {
-  const { pending } = useFormState();
+  const { pending } = useFormStatus();
   return (
     <button
       type="submit"
       disabled={pending}
       className="inline-block rounded border border-current px-8 py-3 text-sm font-medium text-blue transition hover:opacity-80 hover:shadow-xl 
-        focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-500 focus:ring active:text-blue">
+        focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-500  focus:ring active:text-blue">
       Save
     </button>
   );

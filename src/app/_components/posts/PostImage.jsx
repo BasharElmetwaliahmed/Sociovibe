@@ -7,7 +7,7 @@ function PostImage({ post }) {
   return (
     <>
       {" "}
-      {post.image && (
+      {post?.image && (
         <Modal>
           <Modal.Open name={`${post.id}`}>
             <div className="relative w-full h-64 mt-4 cursor-pointer">

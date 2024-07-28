@@ -9,12 +9,12 @@ function ProfileHeader({ user }) {
         <div className="w-[180px] h-[180px]  top-0 border-white  -mt-20 relative ">
           <Image
             src={user.avatar}
-            className="   rounded-full object-cover border-[3px] shadow-md shadow-black "
+            className="rounded-full object-cover border-[3px] shadow-md shadow-black "
             alt={user.fullName}
             fill
           />
         </div>
-        <h3 className="  text-lg font-bold">{user.fullName}</h3>
+        <h3 className="  text-lg font-bold mt-3 mb-2">{user.fullname}</h3>
         <button className="py-3 px-14 bg-blue  mt-4 rounded-[28px] font-semibold">
           Follow
         </button>

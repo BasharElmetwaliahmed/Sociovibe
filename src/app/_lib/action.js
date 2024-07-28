@@ -31,21 +31,34 @@ export const signOutAction = async () => {
 
 export const createPostAction = async (state, formData) => {
   const file = formData.get("image");
+    const text = formData.get("text");
 
-  const fileExt = file.name.split(".").pop();
-  const fileName = `${Math.random()}.${fileExt}`;
-  const filePath = `${fileName}`;
   let uploadedPhoto;
-  if (file.name) uploadedPhoto = await uploadPhoto(file, filePath);
+  if(!file.size>0 && !text){
+    return {
+      ...state,error:true
+    }
+  }
+
+
+  if (file && file.name && file.size > 0) {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+    const filePath = `${fileName}`;
+    uploadedPhoto = await uploadPhoto(file, filePath);
+  }
+
   const session = await auth();
-  const text = formData.get("text");
-  if (text.trim() === "" && !uploadedPhoto) return;
+
+  if (!text.trim() && !uploadedPhoto) return;
+
   await createPost(text, session.user.userId, uploadedPhoto);
   revalidatePath("/");
 
   return {
     ...state,
     resetKey: Math.random(),
+    error:false,
   };
 };
 
@@ -70,7 +83,6 @@ export const changeBookMarkAction = async (formData) => {
   const [postId, bookmarked] = postBookMark.split("%");
   let bookmarks = session.user.bookmarks;
   const userId = session.user.userId;
-  console.log(userId, bookmarked, postId);
 
   if (Number(bookmarked)) bookmarks = bookmarks.filter((id) => +postId !== id);
   else bookmarks.push(postId);
@@ -82,6 +94,7 @@ export const changeBookMarkAction = async (formData) => {
 
 export const deletePostAction = async (formData) => {
   const postId = formData.get("postId");
+  console.log(postId)
   await deletePost(postId);
   revalidatePath("/");
 };
@@ -176,8 +189,6 @@ export const updateSettingsAction = async (prevState, formData) => {
     });
 
     await updateSettings(id, validated);
-    revalidatePath("/");
-    redirect("/profile");
   } catch (err) {
     if (err instanceof ZodError) {
       const validationErrors = {};
@@ -192,6 +203,7 @@ export const updateSettingsAction = async (prevState, formData) => {
         bio: "",
       };
   }
+  redirect("/profile");
 };
 
 export const deleteAccountAction = async () => {

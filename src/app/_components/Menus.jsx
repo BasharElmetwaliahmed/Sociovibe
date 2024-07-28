@@ -85,7 +85,7 @@ const List = ({ id, children }) => {
   );
 };
 
-const Button = ({ children, click, icon }) => {
+const Button = ({ children, click, disabled}) => {
   const { close } = useContext(MenusContext);
 
   function handleClick() {
@@ -96,7 +96,8 @@ const Button = ({ children, click, icon }) => {
   return (
     <li>
       <button
-        className="w-full text-left bg-none border-none p-2 text-base transition-all flex items-center gap-1 hover:bg-lightDark"
+      disabled={disabled}
+        className="w-full text-left bg-none border-none p-2 text-base transition-all flex items-center gap-1 disabled:cursor-not-allowed disabled:bg-bg-gray-900 hover:bg-lightDark"
         onClick={click?handleClick:null}
         >
         {children}

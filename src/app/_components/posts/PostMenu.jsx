@@ -1,5 +1,7 @@
 "use client";
 import { deletePostAction } from "@/app/_lib/action";
+import { useFormStatus } from "react-dom";
+
 import {
   EllipsisHorizontalIcon,
   PencilIcon,
@@ -18,11 +20,8 @@ function PostMenu({ post: { id, text } }) {
         </Menus.Toggle>
         <Menus.List id={id}>
           <form action={deletePostAction}>
-            <Menus.Button as="button" type="submit">
-              <input type="hidden" name="postId" value={id} />
-              <TrashIcon className="size-4" />
-              delete
-            </Menus.Button>
+            <input type="hidden" name="postId" value={id} />
+            <DeleteButton />
           </form>
 
           <Link href={`posts/${id}/edit`}>
@@ -48,4 +47,13 @@ function PostMenu({ post: { id, text } }) {
   );
 }
 
+const DeleteButton = () => {
+  const { pending } = useFormStatus();
+  return (
+    <Menus.Button disabled={pending} type="submit">
+      <TrashIcon className="size-4" />
+      delete
+    </Menus.Button>
+  );
+};
 export default PostMenu;

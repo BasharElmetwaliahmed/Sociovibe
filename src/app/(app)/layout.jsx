@@ -18,7 +18,7 @@ export default async function PageLayout({ children }) {
         <side>
           <Navbar />
         </side>
-        <main className="w-full md:max-w-[500px] lg:max-w-[700px] xl:max-w-[900px] mb-20 md:mb-0 mt-[91px] md:mt-[105px] md:left-[250px] relative  ">
+        <main className="w-full md:max-w-[500px] lg:max-w-[700px] xl:max-w-[900px] mb-20  mt-[96px] md:mt-[105px] md:left-[250px] relative md:px-0 px-2  ">
           {children}
         </main>
       </div>

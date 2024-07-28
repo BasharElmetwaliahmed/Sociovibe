@@ -212,6 +212,7 @@ export const deletePost = async (postId) => {
     .from("posts")
     .delete()
     .eq("id", postId);
+    if(error) console.log(error);
 };
 
 export const addComment = async (comment, user_id, post_id) => {

@@ -3,12 +3,11 @@ import Image from "next/image";
 import { createPostAction } from "@/app/_lib/action";
 import UploadPhoto from "./UploadPhoto";
 import { useSession } from "next-auth/react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 import SubmitButton from "./SubmitButton";
 
 function CreatePostForm() {
   const { data: session } = useSession();
-  const { pending } = useFormStatus();
   const [response, submitForm] = useFormState(createPostAction, {
     resetKey: "",
     error: null,
@@ -17,7 +16,7 @@ function CreatePostForm() {
     <form
       action={submitForm}
       key={response.resetKey}
-      className="p-8 bg-lightDark rounded-md mb-6 ">
+      className="p-8 bg-lightDark rounded-md mb-6 border-transparent border-2 ">
       <div className="flex gap-4 items-start ">
         <div className="w-10 h-10 relative">
           <Image

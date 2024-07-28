@@ -9,6 +9,7 @@ export const updateSettings = async (id, updatedData) => {
   if (error) console.error(error);
 
   console.log("heelo", data);
+  return data;
 };
 
 export const deleteUser = async (id) => {
