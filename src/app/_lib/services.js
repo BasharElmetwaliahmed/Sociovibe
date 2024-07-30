@@ -1,9 +1,11 @@
 "use server";
 import { revalidatePath } from "next/cache";
+import { notFound } from "next/navigation";
+import { getUser } from "../services/users";
 import { auth } from "./auth";
 import supabase from "./supabase";
 
-export const getUser = async (email) => {
+export const getUserByEmail = async (email) => {
   const { data, error } = await supabase
     .from("users")
     .select("*")
@@ -27,6 +29,8 @@ export const searchUsers = async (search) => {
 };
 
 export const getFollowers = async (userId, fullData = false, top = false) => {
+  await getUser(userId);
+
   let query = supabase
     .from("following")
     .select("follower_id")
@@ -62,6 +66,8 @@ export const getFollowers = async (userId, fullData = false, top = false) => {
   return followersDetails;
 };
 export const getFollowing = async (userId, fullData = true, top = false) => {
+  await getUser(userId);
+
   let query = supabase
     .from("following")
     .select("following_id")
@@ -269,6 +275,7 @@ export const getPostById = async (post_id) => {
     .eq("id", post_id)
     .single();
   if (error) console.log(error);
+  if (!data) notFound();
 
   return data;
 };

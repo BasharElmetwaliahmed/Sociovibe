@@ -8,7 +8,6 @@ export const updateSettings = async (id, updatedData) => {
     .eq("id", id);
   if (error) console.error(error);
 
-  console.log("heelo", data);
   return data;
 };
 

@@ -4,7 +4,6 @@ import React from 'react'
 function loading() {
   return (
     <div>
-      {" "}
       <ProfileSkeleton />
     </div>
   );

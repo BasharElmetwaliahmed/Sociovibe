@@ -3,6 +3,9 @@ import CreatePostForm from "../_components/posts/CreatePostForm";
 import Posts from "../_components/posts/Posts";
 import PostsSkeleton from "../_components/posts/skeleton/PostsSkeleton";
 import SearchFriends from "../_components/SearchFriends";
+export const metadata = {
+  title: "Home",
+};
 export default function Home({ searchParams }) {
   return (
     <main className="">

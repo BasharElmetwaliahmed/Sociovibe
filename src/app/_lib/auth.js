@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
-import { createUser, getFollowing, getUser } from "./services";
+import { createUser, getFollowing, getUserByEmail } from "./services";
 
 const authConfig = {
   providers: [
@@ -15,14 +15,13 @@ const authConfig = {
     },
     signIn: async ({ user, account, profile }) => {
       try {
-        const existeduser = await getUser(user.email);
+        const existeduser = await getUserByEmail(user.email);
         if (!existeduser)
           await createUser({
             email: user.email,
             fullName: user.name,
             avatar: user.image,
-            bio:"Hello , New Account !",
-            
+            bio: "Hello , New Account !",
           });
 
         return true;
@@ -31,12 +30,12 @@ const authConfig = {
       }
     },
     session: async ({ session }) => {
-      const user = await getUser(session.user.email);
+      const user = await getUserByEmail(session.user.email);
       const following = await getFollowing(user.id);
       session.user.userId = user.id;
       session.user.avatar = user.avatar;
-      session.user.bio = user.bio
-      session.user.fullName = user.fullName
+      session.user.bio = user.bio;
+      session.user.fullName = user.fullName;
       session.user.following = following ?? [];
       session.user.bookmarks = user?.bookmarks ?? [];
 

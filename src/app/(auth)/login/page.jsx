@@ -1,4 +1,4 @@
-import SignInButton from "../_components/auth/SignInButton";
+import SignInButton from "../../_components/auth/SignInButton";
 import { auth } from "@/app/_lib/auth";
 import { redirect } from "next/navigation";
 

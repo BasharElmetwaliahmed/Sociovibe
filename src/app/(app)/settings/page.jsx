@@ -4,6 +4,9 @@ import { Cog6ToothIcon } from "@heroicons/react/24/solid";
 import React, { Suspense } from "react";
 import SettingForm from "@/app/_components/Settings/SettingForm";
 
+export const metadata = {
+  title: "Settings",
+};
 function Page() {
   return (
     <div>
