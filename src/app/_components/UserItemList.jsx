@@ -3,10 +3,8 @@ import Link from "next/link";
 import { changeFollowings } from "../_lib/services";
 import FollowButton from "./FollowButton";
 
-async function UserItemList({ user, following, userId }) {
-  const followed = following.find(
-    (currUser) => currUser.id === user.id
-  );
+function UserItemList({ user, following, userId }) {
+  const followed = following.find((currUser) => currUser.id === user.id);
 
   return (
     <div className="flex justify-between items-center border-b-2 border-lightBlue py-4">
@@ -15,6 +13,7 @@ async function UserItemList({ user, following, userId }) {
           <Image
             src={user.avatar}
             fill
+            alt={user.fullName}
             className="aspect-auto rounded-full absolute "
           />
         </div>

@@ -20,7 +20,6 @@ function Search() {
   };
   const searchChange = (e) => {
     if (e.target.value.trim() === "") {
-      console.log(true);
       const params = new URLSearchParams(searchParams);
       params.delete("search");
       router.replace(`${pathname}?${params}`, {

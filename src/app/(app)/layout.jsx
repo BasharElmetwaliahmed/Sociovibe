@@ -1,4 +1,5 @@
 import { SessionProvider } from "next-auth/react";
+import SearchLayout from "../_components/layout/SearchLayout";
 import Logo from "../_components/Logo";
 import Navbar from "../_components/Navbar";
 import Search from "../_components/Search";
@@ -15,11 +16,11 @@ export default async function PageLayout({ children }) {
             <Search />
           </div>
         </nav>
-        <side>
+        <div>
           <Navbar />
-        </side>
+        </div>
         <main className="w-full md:max-w-[500px] lg:max-w-[700px] xl:max-w-[900px] mb-20  mt-[96px] md:mt-[105px] md:left-[250px] relative md:px-0 px-2  ">
-          {children}
+          <SearchLayout>{children}</SearchLayout>
         </main>
       </div>
     </SessionProvider>

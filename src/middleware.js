@@ -10,6 +10,6 @@ import { NextResponse } from "next/server";
 export const middleware = auth;
 
 export const config = {
-    matcher:['/profile','/']
+    matcher:['/']
 }
 console.log('assa3sas12')

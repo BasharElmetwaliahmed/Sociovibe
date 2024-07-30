@@ -11,6 +11,7 @@ async function Page({ params }) {
   return (
     <div>
       <CreateEditPostForm post={post} />
+
     </div>
   );
 }

@@ -1,11 +1,9 @@
-import { auth } from "../_lib/auth";
-import { searchUsers } from "../_lib/services";
+import { useSession } from "next-auth/react";
 import UserItemList from "./UserItemList";
 
-async function SearchFriends({ search }) {
-  const users = await searchUsers(search);
+ function SearchFriends({ users }) {
   
-  const session = await auth();
+  const session = useSession();
 
   return (
     <div>
@@ -14,8 +12,8 @@ async function SearchFriends({ search }) {
         {users.map((user) => (
           <UserItemList
             key={user.id}
-            following={session.user.following}
-            userId={session.user.userId}
+            following={session.data.user.following}
+            userId={session.data.user.userId}
             user={user}
           />
         ))}
