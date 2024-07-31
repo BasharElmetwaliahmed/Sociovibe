@@ -4,6 +4,9 @@ import Logo from "../_components/Logo";
 import Navbar from "../_components/Navbar";
 import Search from "../_components/Search";
 import { auth } from "../_lib/auth";
+export const metadata = {
+  title: "Search",
+};
 
 export default async function PageLayout({ children }) {
   const session = await auth();

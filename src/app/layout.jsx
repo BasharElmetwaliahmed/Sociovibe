@@ -16,8 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${nunito.className} bg-dark container mx-auto `}>
         {children}
-        <Toaster/>
-        
+        <Toaster />
       </body>
     </html>
   );

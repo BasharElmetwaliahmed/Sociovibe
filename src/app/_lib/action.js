@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
 import { z, ZodError } from "zod";
-import { deleteUser, updateSettings } from "../services/settings";
+import { deleteUser, updateSettings } from "../_services/settings";
 import { auth, signIn, signOut } from "./auth";
 import {
   addComment,

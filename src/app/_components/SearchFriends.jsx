@@ -1,9 +1,12 @@
+import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
+import Empty from "./Empty";
 import UserItemList from "./UserItemList";
 
  function SearchFriends({ users }) {
   
   const session = useSession();
+  if(users.length==0) return <Empty icon={<UserCircleIcon/>} resource={'users'} />
 
   return (
     <div>
