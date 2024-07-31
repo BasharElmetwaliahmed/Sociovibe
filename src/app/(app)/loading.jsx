@@ -1,9 +1,11 @@
-import Spinner from "../_components/Spinner"
+import Spinner from "../_components/Spinner";
 
 function loading() {
   return (
-    <div className="min-h-[calc(100vh_-_80px)] flex justify-center items-center"><Spinner/></div>
-  )
+    <div className="h-layout flex justify-center items-center">
+      <Spinner />
+    </div>
+  );
 }
 
-export default loading
+export default loading;

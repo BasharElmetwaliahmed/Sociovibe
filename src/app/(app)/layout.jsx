@@ -1,8 +1,7 @@
 import { SessionProvider } from "next-auth/react";
+import Header from "../_components/layout/Header";
 import SearchLayout from "../_components/layout/SearchLayout";
-import Logo from "../_components/Logo";
 import Navbar from "../_components/Navbar";
-import Search from "../_components/Search";
 import { auth } from "../_lib/auth";
 export const metadata = {
   title: "Search",
@@ -13,18 +12,13 @@ export default async function PageLayout({ children }) {
   return (
     <SessionProvider session={session}>
       <div className="min-h-screen  dark:bg-black dark:text-white">
-        <nav className=" py-6  fixed w-screen md:px-0 px-2   border-b-lightDark border-b-[2px] top-0 bg-dark  z-10 left-1/2 -translate-x-1/2">
-          <div className="container flex mx-auto justify-between ">
-            <Logo />
-            <Search />
-          </div>
-        </nav>
-        <div>
+        <Header />
+        <div className="relative flex md:flex-row flex-col items-start container justify-end gap-4 pt-[94px]  md:p-0  left-0 md:left-auto w-full md:top-[105px] bottom-0 md:bottom-auto">
           <Navbar />
+          <main className="w-full  mb-[68px]  md:px-2  md:w-[500px] lg:w-[700px] xl:w-[900px] ">
+            <SearchLayout>{children}</SearchLayout>
+          </main>
         </div>
-        <main className="w-full md:max-w-[500px] lg:max-w-[700px] xl:max-w-[900px] mb-20  mt-[96px] md:mt-[105px] md:left-[250px] relative md:px-0 px-2  ">
-          <SearchLayout>{children}</SearchLayout>
-        </main>
       </div>
     </SessionProvider>
   );

@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer components {
+  .h-layout {
+    height: calc(100vh - 91px - 65px - 68px);
+    
+  }
   .spinner {
     margin: 3.2rem auto 1.6rem;
     width: 60px;
