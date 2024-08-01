@@ -24,7 +24,12 @@ function SearchLayout({ children }) {
   useEffect(() => {
     if (searchParams.get("search")) changeUsers(searchParams.get("search"));
   }, [searchParams]);
-  if (loading) return <Spinner />;
+  if (loading) return (
+    <div className="h-layout flex justify-center items-center">
+      <Spinner />
+    </div>
+  );
+  
   if (searchParams.get("search")) return <SearchFriends users={users} />;
   return children;
 }

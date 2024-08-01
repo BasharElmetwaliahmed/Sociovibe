@@ -6,8 +6,8 @@ function LogoutButton() {
       <button
         className="flex gap-4 py-2 px-4 text-xl font-semibold items-center
               hover:bg-blue transition-all duration-300 hover:text-white rounded-md">
-        <ArrowLeftStartOnRectangleIcon className="size-4" />
-        <span> Logout</span>
+        <ArrowLeftStartOnRectangleIcon className="size-4 " />
+        <span className="md:block hidden"> Logout</span>
       </button>
     </form>
   );

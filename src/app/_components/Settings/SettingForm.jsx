@@ -17,7 +17,7 @@ export default function SettingForm() {
   const session = auth.data;
   return (
     <form
-      className="max-w-[500px] py-14 flex flex-col gap-8 justify-end items-end "
+      className="max-w-[500px] py-6 flex flex-col gap-8 justify-end items-end "
       action={action}>
       <Input
         label="email"

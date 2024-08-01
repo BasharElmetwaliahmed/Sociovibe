@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
 import { z, ZodError } from "zod";
+import { follow, unfollow } from "../_services/follows";
 import { deleteUser, updateSettings } from "../_services/settings";
 import { auth, signIn, signOut } from "./auth";
 import {
@@ -217,4 +218,27 @@ export const deleteAccountAction = async () => {
 
   await deleteUser(session.user.userId);
   redirect("/");
+};
+
+export const changeFollowings = async (formData) => {
+  const followingUser = Number(formData.get("userId"));
+  const session = await auth();
+  const followerUser = session.user.userId;
+  const following = session.user.following;
+  console.log(followerUser, followingUser, following);
+  const followed = following.find(
+    (user) => user.following_id === followingUser.id
+  );
+  console.log(followed);
+  if (followed) {
+    await unfollow(followerUser, followingUser);
+  } else {
+    await follow(followerUser, followingUser);
+  }
+
+  revalidatePath("/following");
+  revalidatePath(`/profile/${followingUser}/followers`);
+  revalidatePath(`/profile/${followerUser}/following`);
+  revalidatePath(`/profile/${followerUser}`);
+  revalidatePath(`/profile/${followingUser}`);
 };

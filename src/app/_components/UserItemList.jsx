@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { changeFollowings } from "../_lib/services";
 import FollowButton from "./FollowButton";
 
 function UserItemList({ user, following, userId }) {
@@ -19,7 +18,7 @@ function UserItemList({ user, following, userId }) {
         </div>
         <Link
           href={`/profile/${user.id}`}
-          className="text-xl font-semibold text-white">
+          className="text-xl font-semibold text-white cursor-pointer">
           {user.fullName}
         </Link>
       </div>

@@ -1,4 +1,5 @@
 import { auth } from "../_lib/auth";
+import { follow, unfollow } from "./follows";
 
 export const changeFollowings = async (formData) => {
   const followingUser = Number(formData.get("userId"));
@@ -12,9 +13,9 @@ export const changeFollowings = async (formData) => {
     await unfollow(followerUser, followingUser);
   } else {
     await follow(followerUser, followingUser);
+
   }
 
   revalidatePath("/friends");
 };
 
-// Add other auth-related functions here

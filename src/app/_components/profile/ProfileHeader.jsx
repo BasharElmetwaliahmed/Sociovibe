@@ -1,23 +1,38 @@
+import { changeFollowings } from "@/app/_lib/action";
+import { auth } from "@/app/_lib/auth";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { FollowButtonHeader } from "./FollowButtonHeader";
 
-function ProfileHeader({ user }) {
+async function ProfileHeader({ user }) {
+  const session = await auth();
+  const followed = session.user.following.find(
+    (currUser) => currUser.id === user.id
+  );
+
+  const isCurrentUser = user.id === session.user.userId;
   return (
     <>
       <div className=" bg-lightDark relative w-full   flex justify-center items-center flex-col md:rounded-t-3xl -translate-y-6 pb-8">
         <div className="w-[180px] h-[180px]  top-0 border-white  -mt-20 relative ">
           <Image
             src={user.avatar}
+            priority={true}
             className="rounded-full object-cover border-[3px] shadow-md shadow-black "
-            alt={user.fullName}
+            alt={user.fullname}
             fill
           />
         </div>
         <h3 className="  text-lg font-bold mt-3 mb-2">{user.fullname}</h3>
-        <button className="py-3 px-14 bg-blue  mt-4 rounded-[28px] font-semibold">
-          Follow
-        </button>
+        <form action={changeFollowings}>
+          <input type="hidden" name="userId" value={user.id} />
+          <FollowButtonHeader
+            followed={followed}
+            isCurrentUser={isCurrentUser}
+          />
+        </form>
+
         <div className="mt-[22px] flex justify-evenly items-center w-full">
           <Link
             href={`/profile/${user.id}/followers`}
@@ -50,3 +65,4 @@ function ProfileHeader({ user }) {
 }
 
 export default ProfileHeader;
+

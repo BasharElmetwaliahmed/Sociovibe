@@ -43,7 +43,7 @@ function Navbar() {
   ];
 
   return (
-    <div className="fixed w-screen container md:top-[106px] mx-auto  bottom-0 z-10   left-1/2
+    <div className="fixed w-screen container md:top-[106px] mx-auto  bottom-0 z-10 md:z-0    left-1/2
       -translate-x-1/2    md:bottom-auto  ">
       <div className="container relative">
         <div
@@ -63,7 +63,7 @@ function Navbar() {
                 <span className="md:block hidden">{link.label}</span>
               </Link>
             ))}
-            {/* <LogoutButton /> */}
+            <LogoutButton />
           </nav>
         </div>
       </div>

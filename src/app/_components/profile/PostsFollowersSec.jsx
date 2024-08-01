@@ -15,7 +15,9 @@ async function PostsFollowersSec({ userId }) {
       <div className="py-4 px-4 bg-lightDark">
         <div className="flex justify-between">
           <h3 className="font-semibold ">Followers</h3>
-          <button className="text-blue">View All</button>
+          {followers.length > 0 && (
+            <button className="text-blue">View All</button>
+          )}
         </div>
         <div className="flex gap-4 items-center mt-5 h-[92px]">
           {followers.length === 0 ? (
@@ -28,13 +30,15 @@ async function PostsFollowersSec({ userId }) {
       <div className="px-4 py-4 mt-4 bg-lightDark">
         <div className="flex justify-between">
           <h3 className="font-semibold ">Posts</h3>
-          <Link href={`/profile/${userId}/posts`} className="text-blue">
-            View All
-          </Link>
+          {posts.length > 0 && (
+            <Link href={`/profile/${userId}/posts`} className="text-blue">
+              View All
+            </Link>
+          )}
         </div>
-        <div className="flex gap-2 py-2  w-full h-[94px]  ">
+        <div className="flex gap-2 py-2 items-center  w-full h-[94px]  ">
           {posts.length === 0 ? (
-            <p>No posts yet.</p>
+            <p className="w-full text-center">No posts yet.</p>
           ) : (
             <ProfilePosts posts={posts} />
           )}
