@@ -225,7 +225,7 @@ export const changeFollowings = async (formData) => {
   const session = await auth();
   const followerUser = session.user.userId;
   const following = session.user.following;
-  console.log(followerUser, followingUser, following);
+  if(followingUser===followerUser) throw new Error("This Not Allowed!");
   const followed = following.find(
     (user) => user.following_id === followingUser.id
   );
