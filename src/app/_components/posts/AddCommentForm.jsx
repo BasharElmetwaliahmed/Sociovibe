@@ -1,10 +1,27 @@
-import { addCommentAction } from '@/app/_lib/action';
-import React from 'react'
-import SubmitButton from './SubmitButton'
+"use client";
+import { addCommentAction } from "@/app/_lib/action";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import SubmitButton from "./SubmitButton";
 
-function AddCommentForm({id}) {
+function AddCommentForm({ id }) {
+  const [resetKey, setRestKey] = useState();
+  const addCommentHandler = async (formData) => {
+    const text = formData.get("text");
+    if (!text) {
+      return toast.error("Please enter comment value");
+    }
+    const result = await addCommentAction(formData);
+    if (result.message) {
+      toast.success(result.message);
+      setRestKey(Math.random() * 100);
+    }
+  };
   return (
-    <form className="flex gap-2 items-stretch w-full" action={addCommentAction}>
+    <form
+      className="flex gap-2 items-stretch w-full"
+      key={resetKey}
+      action={addCommentHandler}>
       <input
         type="text"
         id={`${id}`}
@@ -21,4 +38,4 @@ function AddCommentForm({id}) {
   );
 }
 
-export default AddCommentForm
+export default AddCommentForm;

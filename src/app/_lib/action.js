@@ -114,6 +114,10 @@ export const addCommentAction = async (formData) => {
   await addComment(text, userId, postId);
 
   revalidatePath("/");
+  return {
+    message:"Comment added successfully",
+  }
+
 };
 
 export const editPostAction = async (post, formData) => {

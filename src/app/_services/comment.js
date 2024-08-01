@@ -14,6 +14,7 @@ export const addComment = async (comment, user_id, post_id) => {
     if (error) throw error;
   } catch (error) {
     console.error("Error adding comment:", error);
+    throw new Error({error:true,message:"Error while inserting comment"});
   }
 };
 
@@ -46,7 +47,7 @@ export async function getCommentsCount(postId) {
 
   if (error) {
     console.error("Error fetching comments count:", error);
-    return null;
+    
   }
 
   return count;
