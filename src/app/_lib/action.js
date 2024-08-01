@@ -34,7 +34,7 @@ export const signOutAction = async () => {
 export const createPostAction = async (formData) => {
   const file = formData.get("image");
   const text = formData.get("text");
-
+  console.log(file);
   try {
     if (!file.size > 0 && !text.trim()) {
       throw new Error("Please upload a photo or add content.");
@@ -96,11 +96,11 @@ export const changeBookMarkAction = async (formData) => {
   await updateBookMarks(bookmarks, userId);
 
   revalidatePath("/");
+  revalidatePath("/bookmarks");
 };
 
 export const deletePostAction = async (formData) => {
   const postId = formData.get("postId");
-  console.log(postId);
   await deletePost(postId);
   revalidatePath("/");
 };
@@ -114,20 +114,21 @@ export const addCommentAction = async (formData) => {
   await addComment(text, userId, postId);
 
   revalidatePath("/");
-  return {
-    message:"Comment added successfully",
-  }
+  revalidatePath(`profile/posts/${postId}`);
 
+  return {
+    message: "Comment added successfully",
+  };
 };
 
-export const editPostAction = async (post, formData) => {
+export const editPostAction = async (post, formData, imageExisted) => {
   const file = formData.get("image");
   const text = formData.get("text");
   const imageDeleted = formData.get("image_deleted");
   let uploadedPhoto = null;
 
   // Check if there are no changes to submit
-  if (!text && !file.size && imageDeleted) return;
+  if (!text && !imageExisted) return;
 
   // Handle file upload if a new file is provided
   if (file.size > 0) {
@@ -143,7 +144,7 @@ export const editPostAction = async (post, formData) => {
   };
 
   // Conditionally add the image property
-  if (uploadedPhoto || imageDeleted) {
+  if (!imageExisted && (uploadedPhoto || imageDeleted)) {
     updatedData.image = uploadedPhoto ? uploadedPhoto : null;
   }
 
@@ -153,7 +154,6 @@ export const editPostAction = async (post, formData) => {
   // Revalidate paths to ensure the updated post is fetched
   revalidatePath("/");
   revalidatePath(`/post/${post.id}/edit`);
-  redirect("/");
 };
 
 const settingsSchema = z.object({
@@ -229,7 +229,7 @@ export const changeFollowings = async (formData) => {
   const session = await auth();
   const followerUser = session.user.userId;
   const following = session.user.following;
-  if(followingUser===followerUser) throw new Error("This Not Allowed!");
+  if (followingUser === followerUser) throw new Error("This Not Allowed!");
   const followed = following.find(
     (user) => user.following_id === followingUser.id
   );

@@ -27,7 +27,7 @@ const Window = ({ children, openName }) => {
   if (windowName !== openName) return null;
 
   return createPortal(
-    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur z-50 flex items-center justify-center">
+    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur z-[1000] flex items-center justify-center">
       <button
         onClick={close}
         className="absolute top-4 right-4 p-2 rounded-full bg-red-600 hover:bg-red-700 transition-all z-50">

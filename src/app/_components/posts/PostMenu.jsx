@@ -10,6 +10,8 @@ import {
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import Menus from "../Menus";
+import Spinner from "../Spinner";
+import SpinnerMini from "../SpinnerMini";
 
 function PostMenu({ post: { id, text } }) {
   return (
@@ -51,8 +53,15 @@ const DeleteButton = () => {
   const { pending } = useFormStatus();
   return (
     <Menus.Button disabled={pending} type="submit">
-      <TrashIcon className="size-4" />
-      delete
+      {pending ? (
+        <SpinnerMini />
+      ) : (
+        <>
+          {" "}
+          <TrashIcon className="size-4" />
+          delete
+        </>
+      )}
     </Menus.Button>
   );
 };

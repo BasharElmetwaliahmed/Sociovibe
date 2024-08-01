@@ -1,13 +1,31 @@
 "use client";
 import { PhotoIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
-function UploadPhoto({ image }) {
-  const [file, setFile] = useState(image ?? null);
-  const [deleted,setDeleted] = useState(false);
+function UploadPhoto({image, file,setFile }) {
+
+  const [deleted, setDeleted] = useState(false);
+  const fileInputRef = useRef(null);
+
   function handleChange(e) {
-    setFile(URL.createObjectURL(e.target.files[0]));
+    setFile({
+      file: e.target.files[0],
+      filePath: URL.createObjectURL(e.target.files[0]),
+    });
   }
+
+  function handleRemove() {
+    setFile({
+      file: "",
+      filePath: "",
+    });
+    if (image) setDeleted(true);
+    // Clear the file input value
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }
+
   return (
     <div className="flex items-start flex-col ">
       <div>
@@ -22,20 +40,16 @@ function UploadPhoto({ image }) {
           id="upload_photo"
           name="image"
           className="hidden"
+          ref={fileInputRef}
           onChange={handleChange}
         />
       </div>
-      {file && (
+      {file.filePath && (
         <div className="relative p-4 w-20 h-20 mt-6 border-[1px] border-lightBlue rounded-sm flex justify-center items-center">
-          <img src={file} alt={"post image"} className="w-full" />
+          <img src={file.filePath} alt={"post image"} className="w-full" />
           <button
             className="p-2 rounded-full absolute bg-red-500 text-white -right-3 -top-3 "
-            onClick={() => {
-              setFile(null)
-              if(image)
-              setDeleted(true)
-            
-            }}>
+            onClick={handleRemove}>
             <XMarkIcon className="w-3" />
           </button>
         </div>

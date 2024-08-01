@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { changeFollowings } from "../_lib/action";
 import FollowButton from "./FollowButton";
 
 function UserItemList({ user, following, userId }) {

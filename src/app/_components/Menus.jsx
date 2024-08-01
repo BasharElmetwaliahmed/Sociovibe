@@ -73,7 +73,7 @@ const List = ({ id, children }) => {
   return createPortal(
     <ul
       ref={ref}
-      className="fixed bg-dark text-white shadow-md rounded-md p-1"
+      className="fixed z-[800] bg-dark text-white shadow-md rounded-md p-1"
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
