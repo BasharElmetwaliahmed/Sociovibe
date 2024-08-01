@@ -2,7 +2,7 @@
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 import { createContext, useContext, useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
-import useClickOutside from "../_hooks/useClickOutside";
+import useClickOutside from "../_hooks/useClickOutSide";
 
 const MenusContext = createContext();
 
@@ -85,7 +85,7 @@ const List = ({ id, children }) => {
   );
 };
 
-const Button = ({ children, click, disabled}) => {
+const Button = ({ children, click, disabled }) => {
   const { close } = useContext(MenusContext);
 
   function handleClick() {
@@ -96,10 +96,9 @@ const Button = ({ children, click, disabled}) => {
   return (
     <li>
       <button
-      disabled={disabled}
+        disabled={disabled}
         className="w-full text-left bg-none border-none p-2 text-base transition-all flex items-center gap-1 disabled:cursor-not-allowed disabled:bg-bg-gray-900 hover:bg-lightDark"
-        onClick={click?handleClick:null}
-        >
+        onClick={click ? handleClick : null}>
         {children}
       </button>
     </li>
