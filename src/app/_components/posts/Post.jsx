@@ -1,12 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import AddCommentForm from "./AddCommentForm";
 import Comments from "./Comments";
 import PostFooter from "./PostFooter";
 import PostHeader from "./PostHeader";
 import PostImage from "./PostImage";
 import PostText from "./PostText";
-import PostSkeleton from "./skeleton/PostSkeleton";
 
 function Post({ post }) {
   return (
@@ -18,7 +16,7 @@ function Post({ post }) {
       <PostImage post={post} />
       <PostFooter post={post} />
       <Comments id={post.id} />
-      <AddCommentForm id={post.id} />
+
     </div>
   );
 }
