@@ -168,7 +168,7 @@ export const editPostAction = async (post, formData, imageExisted) => {
   revalidatePath("/");
   revalidatePath("/profile");
   revalidatePath("/bookmarks");
-  revalidatePath(`/posts/${postId}`);
+  revalidatePath(`/posts/${post.id}`);
   revalidatePath(`/profile/${session.user.userId}/posts`);
 };
 
@@ -205,40 +205,53 @@ const settingsSchema = z.object({
 export const updateSettingsAction = async (prevState, formData) => {
   try {
     const session = await auth();
-    if (!session.user) throw new Error("You must be logged");
+    if (!session.user) throw new Error("You must be logged in");
+
     const fullName = formData.get("fullName");
     const bio = formData.get("bio");
     const id = formData.get("id");
 
+    // Validate the data using your schema
     const validated = settingsSchema.parse({
       fullName,
       bio,
       id,
     });
 
+    // Update settings with validated data
     await updateSettings(id, validated);
+
+    // Revalidate necessary paths
+    revalidatePath("/settings");
+    revalidatePath(`/profile/${session.user.userId}`);
+    revalidatePath("/profile");
+    revalidatePath("/");
+
+    return {
+      message: "Settings updated successfully",
+      fullName: "",
+      bio: "",
+      success: true,
+    };
   } catch (err) {
     if (err instanceof ZodError) {
       const validationErrors = {};
       err.errors.forEach((error) => {
         validationErrors[error.path[0]] = error.message;
       });
+
       revalidatePath("/");
 
-      return { message: "", ...validationErrors };
-    } else
+      return { message: "Validation error", ...validationErrors };
+    } else {
       return {
-        message: "error while update settings",
+        message: "Error while updating settings",
         fullName: "",
         bio: "",
       };
+    }
   }
-  revalidatePath("/");
-  revalidatePath(`/profile/${session.user.userId}`);
-  revalidatePath("/profile");
-  redirect("/profile");
 };
-
 export const deleteAccountAction = async () => {
   const session = await auth();
   if (!session) throw new Error("You must be logged in!");

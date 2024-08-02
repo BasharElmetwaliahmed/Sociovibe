@@ -1,22 +1,21 @@
-
-import Spinner from "@/app/_components/Spinner";
 import { Cog6ToothIcon } from "@heroicons/react/24/solid";
-import React, { Suspense } from "react";
 import SettingForm from "@/app/_components/Settings/SettingForm";
 import PageHeading from "@/app/_components/PageHeading";
+import { auth } from "@/app/_lib/auth";
+import { getUserByEmail } from "@/app/_services/users";
 
 export const metadata = {
   title: "Settings",
 };
-function Page() {
+async function Page() {
+  const session=await auth();
+  const user = await getUserByEmail(session.user.email)
   return (
     <div>
-      <PageHeading  label={'Settings'}>
+      <PageHeading label={"Settings"}>
         <Cog6ToothIcon />
       </PageHeading>
-      <Suspense fallback={<Spinner />}>
-        <SettingForm />
-      </Suspense>
+      <SettingForm user={user} />
     </div>
   );
 }

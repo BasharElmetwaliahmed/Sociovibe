@@ -1,6 +1,5 @@
 import { getFollowers, getUserPostsById } from "@/app/_lib/services";
 import Link from "next/link";
-import Follower from "./Follower";
 import ProfileFollowers from "./ProfileFollowers";
 import ProfilePosts from "./ProfilePosts";
 
@@ -15,7 +14,9 @@ async function PostsFollowersSec({ userId }) {
         <div className="flex justify-between">
           <h3 className="font-semibold ">Followers</h3>
           {followers.length > 0 && (
-            <button className="text-blue">View All</button>
+            <Link className="text-blue" href={`/profile/${userId}/followers`}>
+              View All
+            </Link>
           )}
         </div>
         <div className="flex gap-4 items-center mt-5 h-[92px]">
