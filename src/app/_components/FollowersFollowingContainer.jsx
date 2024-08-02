@@ -16,9 +16,10 @@ async function FollowersFollowingContainer({ items, label, icon, following }) {
       {!items.length ? (
         <Empty resource={label} container={true} icon={<UsersIcon className="size-14" />} />
       ) : (
-        <div className="flex flex-col gap-2 my-8 min-h-[450px] justify-center ">
+        <div className="flex flex-col gap-2 my-8 min-h-[450px]  ">
           {items.map((user) => (
             <UserItemList
+            
               key={user.id}
               user={{
                 id: user.id,

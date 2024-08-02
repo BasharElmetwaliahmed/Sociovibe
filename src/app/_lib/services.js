@@ -15,7 +15,6 @@ export {
 export {
   getFollowers,
   getFollowing,
-  changeFollowings,
   getFollowings,
 } from "@/app/_services/follows";
 export { addComment, getFirstTwoComments } from "@/app/_services/comment";

@@ -1,18 +1,31 @@
 "use client";
 import { UserPlusIcon, UserMinusIcon } from "@heroicons/react/24/solid";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import SpinnerMini from "./SpinnerMini";
 
 function FollowButton({ followed }) {
   const { pending } = useFormStatus();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const search = searchParams.get("search");
+
   return (
     <>
+      {search && (
+        <input
+          type={"hidden"}
+          name="currentpath"
+          value={`${pathname}?search=${search}`}
+        />
+      )}
       {followed ? (
         <button
           disabled={pending}
           className="flex items-center gap-2 disabled:bg-lightBlue border-blue text-white w-28  p-2 font-semibold h-12 hover:bg-transparent bg-blue transition-all duration-300 border-[1px] rounded-md">
           {pending ? (
-            <SpinnerMini  />
+            <SpinnerMini />
           ) : (
             <>
               <UserMinusIcon className="w-5" />

@@ -1,7 +1,6 @@
 import supabase from "../_lib/supabase";
 
 export const updateSettings = async (id, updatedData) => {
-  console.log(id, updatedData);
   const { data, error } = await supabase
     .from("users")
     .update({ ...updatedData })

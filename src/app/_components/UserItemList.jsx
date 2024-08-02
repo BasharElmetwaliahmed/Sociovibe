@@ -3,7 +3,7 @@ import Link from "next/link";
 import { changeFollowings } from "../_lib/action";
 import FollowButton from "./FollowButton";
 
-function UserItemList({ user, following, userId }) {
+function UserItemList({ user, following, userId, search }) {
   const followed = following.find((currUser) => currUser.id === user.id);
 
   return (
@@ -23,12 +23,13 @@ function UserItemList({ user, following, userId }) {
           {user.fullName}
         </Link>
       </div>
-      {userId != user.id && (
-        <form action={changeFollowings}>
-          <input type="hidden" name="userId" value={user.id} />
-          <FollowButton followed={followed} />
-        </form>
-      )}
+      {search ||
+        (userId != user.id && (
+          <form action={changeFollowings}>
+            <input type="hidden" name="userId" value={user.id} />
+            <FollowButton followed={followed} />
+          </form>
+        ))}
     </div>
   );
 }

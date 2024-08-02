@@ -29,10 +29,12 @@ const authConfig = {
         return false;
       }
     },
+    secret: process.env.NEXTAUTH_SECRET,
     session: async ({ session }) => {
       const user = await getUserByEmail(session.user.email);
       const following = await getFollowing(user.id);
       session.user.userId = user.id;
+      session.user.resetSearch=Math.random();
       session.user.avatar = user.avatar;
       session.user.bio = user.bio;
       session.user.fullName = user.fullName;

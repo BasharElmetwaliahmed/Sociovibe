@@ -218,7 +218,6 @@ export const updateBookMarks = async (bookmarks, userId) => {
  * Edits a post by ID.
  */
 export const editPostById = async (post_id, updatedData) => {
-  console.log('editaa')
   try {
     const { error } = await supabase
       .from("posts")

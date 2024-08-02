@@ -9,7 +9,6 @@ async function PostsFollowersSec({ userId }) {
     getUserPostsById(userId, true),
     getFollowers(userId, true, true),
   ]);
-  console.log(followers);
   return (
     <>
       <div className="py-4 px-4 bg-lightDark">

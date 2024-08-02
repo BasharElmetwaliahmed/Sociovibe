@@ -1,7 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import toast from "react-hot-toast";
 import { z, ZodError } from "zod";
 import { follow, unfollow } from "../_services/follows";
 import { deleteUser, updateSettings } from "../_services/settings";
@@ -24,8 +23,6 @@ export const signUpAction = async () => {
 };
 
 export const signOutAction = async () => {
-  console.log("as");
-
   await signOut({
     redirectTo: "/login",
   });
@@ -34,7 +31,6 @@ export const signOutAction = async () => {
 export const createPostAction = async (formData) => {
   const file = formData.get("image");
   const text = formData.get("text");
-  console.log(file);
   try {
     if (!file.size > 0 && !text.trim()) {
       throw new Error("Please upload a photo or add content.");
@@ -55,6 +51,8 @@ export const createPostAction = async (formData) => {
 
     await createPost(text, session.user.userId, uploadedPhoto);
     revalidatePath("/");
+    revalidatePath("/profile");
+    revalidatePath(`/profile/${session.user.userId}`);
 
     return {
       resetKey: Math.random(),
@@ -71,9 +69,9 @@ export const createPostAction = async (formData) => {
 export const changeLikeAction = async (formData) => {
   const session = await auth();
   const postLike = formData.get("post");
-  console.log("postLike", postLike);
   const [postId, liked] = postLike.split("%");
   let likes = await getPostLikes(postId);
+  if (!session.user) throw new Error("You must be logged");
 
   if (Number(liked)) likes = likes.filter((id) => session.user.userId !== id);
   else likes.push(session.user.userId);
@@ -81,12 +79,16 @@ export const changeLikeAction = async (formData) => {
   await updateLikes(likes, postId);
 
   revalidatePath("/");
+  revalidatePath("/bookmarks");
+  revalidatePath(`/posts/${postId}`);
+  revalidatePath(`/profile/${session.user.userId}/posts`);
 };
 
 export const changeBookMarkAction = async (formData) => {
   const session = await auth();
   const postBookMark = formData.get("post");
   const [postId, bookmarked] = postBookMark.split("%");
+  if (!session.user) throw new Error("You must be logged");
   let bookmarks = session.user.bookmarks;
   const userId = session.user.userId;
 
@@ -97,35 +99,46 @@ export const changeBookMarkAction = async (formData) => {
 
   revalidatePath("/");
   revalidatePath("/bookmarks");
+  revalidatePath(`/posts/${postId}`);
+  revalidatePath(`/profile/${session.user.userId}/posts`);
 };
 
 export const deletePostAction = async (formData) => {
   const postId = formData.get("postId");
   await deletePost(postId);
   revalidatePath("/");
+  revalidatePath("/profile");
+  revalidatePath("/bookmarks");
+  revalidatePath(`/posts/${postId}`);
+  revalidatePath(`/profile/${session.user.userId}/posts`);
 };
 
 export const addCommentAction = async (formData) => {
   const text = formData.get("text");
+
   const postId = Number(formData.get("postId"));
   const session = await auth();
   const userId = session.user.userId;
+  if (!session.user) throw new Error("You must be logged");
 
   await addComment(text, userId, postId);
 
   revalidatePath("/");
-  revalidatePath(`profile/posts/${postId}`);
-
+  revalidatePath("/bookmarks");
+  revalidatePath(`/posts/${postId}`);
+  revalidatePath(`/profile/${session.user.userId}/posts`);
   return {
     message: "Comment added successfully",
   };
 };
 
 export const editPostAction = async (post, formData, imageExisted) => {
+  const session = await auth();
   const file = formData.get("image");
   const text = formData.get("text");
   const imageDeleted = formData.get("image_deleted");
   let uploadedPhoto = null;
+  if (!session.user) throw new Error("You must be logged");
 
   // Check if there are no changes to submit
   if (!text && !imageExisted) return;
@@ -153,7 +166,10 @@ export const editPostAction = async (post, formData, imageExisted) => {
 
   // Revalidate paths to ensure the updated post is fetched
   revalidatePath("/");
-  revalidatePath(`/post/${post.id}/edit`);
+  revalidatePath("/profile");
+  revalidatePath("/bookmarks");
+  revalidatePath(`/posts/${postId}`);
+  revalidatePath(`/profile/${session.user.userId}/posts`);
 };
 
 const settingsSchema = z.object({
@@ -188,6 +204,8 @@ const settingsSchema = z.object({
 
 export const updateSettingsAction = async (prevState, formData) => {
   try {
+    const session = await auth();
+    if (!session.user) throw new Error("You must be logged");
     const fullName = formData.get("fullName");
     const bio = formData.get("bio");
     const id = formData.get("id");
@@ -205,6 +223,8 @@ export const updateSettingsAction = async (prevState, formData) => {
       err.errors.forEach((error) => {
         validationErrors[error.path[0]] = error.message;
       });
+      revalidatePath("/");
+
       return { message: "", ...validationErrors };
     } else
       return {
@@ -213,6 +233,9 @@ export const updateSettingsAction = async (prevState, formData) => {
         bio: "",
       };
   }
+  revalidatePath("/");
+  revalidatePath(`/profile/${session.user.userId}`);
+  revalidatePath("/profile");
   redirect("/profile");
 };
 
@@ -233,16 +256,20 @@ export const changeFollowings = async (formData) => {
   const followed = following.find(
     (user) => user.following_id === followingUser.id
   );
-  console.log(followed);
   if (followed) {
     await unfollow(followerUser, followingUser);
   } else {
     await follow(followerUser, followingUser);
   }
+  const currentPath = formData.get("currentpath");
 
   revalidatePath("/following");
   revalidatePath(`/profile/${followingUser}/followers`);
   revalidatePath(`/profile/${followerUser}/following`);
   revalidatePath(`/profile/${followerUser}`);
   revalidatePath(`/profile/${followingUser}`);
+  if (currentPath) {
+    revalidatePath(currentPath);
+    redirect(currentPath);
+  }
 };

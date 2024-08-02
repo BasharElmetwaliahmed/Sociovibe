@@ -8,7 +8,6 @@ function PostHeader({ post }) {
     const parsedDate = parseISO(dateString);
     return formatDistanceToNow(parsedDate, { addSuffix: true });
   };
-  console.log(post)
   return (
     <div className="flex justify-between items-center border-b-lightBlue border-b-[1px] pb-4 border-opacity-25">
       <Link

@@ -1,7 +1,6 @@
 import React from "react";
 
 function ButtonIcon({ children, type, className, onClick, disabled }) {
-  console.log("click");
   const baseStyle =
     "flex items-center gap-3 transition-all duration-300 hover:opacity-75 py-2 px-4 text-white font-semibold rounded-md";
   const typeStyles = {

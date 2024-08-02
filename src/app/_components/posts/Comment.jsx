@@ -4,7 +4,6 @@ import CommentTxt from "./Commenttxt";
 function Comment({ comment }) {
   const { avatar, fullName } = comment.user;
   const { text, created_at } = comment;
-  console.log(avatar)
   const timeAgo = formatDistanceToNow(new Date(created_at), {
     addSuffix: true,
   });

@@ -1,7 +1,7 @@
 "use client";
 import { searchUsers } from "@/app/_lib/services";
-import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import SearchFriends from "../SearchFriends";
 import Spinner from "../Spinner";
 
@@ -9,6 +9,7 @@ function SearchLayout({ children }) {
   const searchParams = useSearchParams();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const pathname = usePathname();
 
   const changeUsers = async (search) => {
     setLoading(true);
@@ -23,14 +24,15 @@ function SearchLayout({ children }) {
   };
   useEffect(() => {
     if (searchParams.get("search")) changeUsers(searchParams.get("search"));
-  }, [searchParams]);
-  if (loading) return (
-    <div className="h-layout flex justify-center items-center">
-      <Spinner />
-    </div>
-  );
-  
-  if (searchParams.get("search")) return <SearchFriends users={users} />;
+  }, [searchParams, pathname]);
+  if (loading)
+    return (
+      <div className="h-layout flex justify-center items-center">
+        <Spinner />
+      </div>
+    );
+
+  if (searchParams.get("search")) return <SearchFriends  users={users} />;
   return children;
 }
 

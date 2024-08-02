@@ -8,7 +8,6 @@ import Modal from "../Modal"
 function DeleteAccount() {
   const [loading,setLoading] = useState(false);
   const deleteAccountHandler = async ()=>{
-    console.log("Deleting account")
     setLoading(true);
     try{
     await deleteAccountAction();

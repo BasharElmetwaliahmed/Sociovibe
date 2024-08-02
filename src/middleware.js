@@ -12,4 +12,3 @@ export const middleware = auth;
 export const config = {
     matcher:['/']
 }
-console.log('assa3sas12')
