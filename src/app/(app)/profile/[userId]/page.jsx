@@ -1,9 +1,10 @@
 import { getUser } from "@/app/_services/users";
 import Profile from "@/app/_components/profile/Profile";
 import { getUserProfileWithStats } from "@/app/_lib/services";
+import { notFound } from "next/navigation";
 
 export const generateMetadata = async function ({ params }) {
-  const {fullName} = await getUser(params.userId);
+  const { fullName } = await getUser(params.userId);
   return {
     title: fullName,
   };

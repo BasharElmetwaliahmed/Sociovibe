@@ -2,7 +2,9 @@ import FollowersFollowingContainer from '@/app/_components/FollowersFollowingCon
 import { auth } from '@/app/_lib/auth';
 import { getFollowers } from '@/app/_lib/services';
 import { UserIcon } from '@heroicons/react/24/solid';
-
+export const metadata = {
+  title: "Followers",
+};
 async function Page({params}) {
   const session = await auth();
   const following = session.user.following;

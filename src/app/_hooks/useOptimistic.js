@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useEffect, useState } from "react";
 
@@ -9,7 +9,10 @@ export default function useOptimistic(passthrough, reducer) {
     setValue(passthrough);
   }, []);
 
-  return [value, (payload) =>{
-    console.log('hello')
-    setValue(reducer(passthrough, payload))}];
+  return [
+    value,
+    (payload) => {
+      setValue(reducer(passthrough, payload));
+    },
+  ];
 }

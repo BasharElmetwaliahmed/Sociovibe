@@ -25,11 +25,13 @@ function PostHeader({ post }) {
           <h4 className="text-white text-lg font-semibold">
             {post.users.fullName}
           </h4>
-          <p className="text-sm text-lightBlue">{formatDateToRelative(post.created_at)}</p>
+          <p className="text-sm text-lightBlue">
+            {formatDateToRelative(post.created_at)}
+          </p>
         </div>
       </Link>
       <div className="text-white">
-       <PostMenu post={post}/>
+        <PostMenu post={post} />
       </div>
     </div>
   );

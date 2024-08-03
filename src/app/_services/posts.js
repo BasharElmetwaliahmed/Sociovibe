@@ -55,7 +55,7 @@ export const getPosts = async () => {
 export const getUserPostsById = async (user_id, image = false) => {
   let selectData = image
     ? "id, image"
-    : "id, created_at, text, image, users(fullName, avatar), likes";
+    : "id, created_at, text, image,user_id, users(fullName, avatar,user_id:id), likes";
 
   try {
     const { data, error } = await supabase

@@ -29,9 +29,10 @@ export const getUser = async (id) => {
     console.error("Error fetching user by ID:", error);
     return null;
   }
+  
 
   if (!data) {
-    notFound();
+   return notFound();
   }
 
   return data;
