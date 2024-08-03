@@ -1,25 +1,26 @@
 import { deleteAccountAction } from "@/app/_lib/action";
 import { TrashIcon } from "@heroicons/react/24/solid";
+import { signOut } from "next-auth/react";
 import { useState } from "react";
 import ButtonIcon from "../ButtonIcon";
 import ConfirmDelete from "../ConfirmAlert";
-import Modal from "../Modal"
+import Modal from "../Modal";
 
 function DeleteAccount() {
-  const [loading,setLoading] = useState(false);
-  const deleteAccountHandler = async ()=>{
+  const [loading, setLoading] = useState(false);
+  const deleteAccountHandler = async () => {
     setLoading(true);
-    try{
-    await deleteAccountAction();
-  }
-  catch(err){
-    console.log(err);
-  }
-  finally{
-    setLoading(false);
-  }
-
-  }
+    try {
+      await deleteAccountAction();
+      await signOut({
+        redirectTo: "/login",
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Modal>
       <Modal.Open name="deleteAccount">
