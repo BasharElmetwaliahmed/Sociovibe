@@ -38,6 +38,7 @@ function UploadPhoto({image, file,setFile }) {
         <input
           type="file"
           id="upload_photo"
+          accept="image/*"
           name="image"
           className="hidden"
           ref={fileInputRef}
