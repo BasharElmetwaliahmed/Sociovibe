@@ -109,9 +109,9 @@ export const deletePostAction = async (formData) => {
 
     await deletePost(postId);
     const pathname = formData.get("pathname");
-  if (pathname.split("/")[1] === "posts" && pathname.split("/").length == 3){
-    redirect('/')
-  }
+    if (pathname.split("/")[1] === "posts" && pathname.split("/").length == 3) {
+      redirect("/");
+    }
     revalidatePath("/");
     revalidatePath("/profile");
     revalidatePath("/bookmarks");
@@ -266,7 +266,9 @@ export const deleteAccountAction = async () => {
   if (!session) throw new Error("You must be logged in!");
 
   await deleteUser(session.user.userId);
-  redirect("/");
+  await signOut({
+    redirectTo: "/login",
+  });
 };
 
 export const changeFollowings = async (formData) => {
