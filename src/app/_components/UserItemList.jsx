@@ -7,7 +7,7 @@ function UserItemList({ user, following, userId, search }) {
   const followed = following.find((currUser) => currUser.id === user.id);
 
   return (
-    <div className="flex justify-between items-center border-b-2 border-lightBlue py-4">
+    <div className="flex justify-between items-center border-b-2 border-lightBlue py-4 gap-2">
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 relative">
           <Image
@@ -19,7 +19,7 @@ function UserItemList({ user, following, userId, search }) {
         </div>
         <Link
           href={`/profile/${user.id}`}
-          className="text-xl font-semibold text-white cursor-pointer">
+          className="text-sm sm:text-xl font-semibold text-white cursor-pointer">
           {user.fullName}
         </Link>
       </div>
