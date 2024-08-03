@@ -22,8 +22,8 @@ function CommentComponent({ comment }) {
       </div>
       <div className="flex flex-col w-full">
         <div className="flex justify-between items-center">
-          <span className="font-semibold text-blue">{fullName}</span>
-          <small className="text-gray-400">{timeAgo}</small>
+          <span className="font-semibold md:text-base text-sm text-blue">{fullName}</span>
+          <small className="text-gray-400 md:text-sm text-xs">{timeAgo}</small>
         </div>
         <CommentTxt text={text} />
       </div>
