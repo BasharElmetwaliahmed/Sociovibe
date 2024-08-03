@@ -11,7 +11,7 @@ function Post({ post }) {
     <div className="py-4 px-4 md:px-8 bg-lightDark rounded-md">
       <PostHeader post={post} />
       <Link href={`/posts/${post?.id}`}>
-        {post.text && <PostText text={post.text} />}
+        {post?.text && <PostText text={post.text} />}
       </Link>
       <PostImage post={post} />
       <PostFooter post={post} />

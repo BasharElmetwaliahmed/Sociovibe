@@ -5,10 +5,10 @@ import SubmitButtonIcon from "./SubmitButtonIcon";
 import { changeLikeAction } from "@/app/_lib/action";
 import { useOptimistic } from "react";
 
-function LikeButton({ liked, post,id }) {
+function LikeButton({ post, id }) {
   const [optimisticLikes, changeLike] = useOptimistic(
     post.likes ?? [],
-    (state,liked) => {
+    (state, liked) => {
       if (liked) {
         return state.filter((currId) => currId !== id);
       }
@@ -16,10 +16,12 @@ function LikeButton({ liked, post,id }) {
       return [...state, id];
     }
   );
+  const liked = optimisticLikes.includes(id) ?? false;
   const clientAction = async (formData) => {
-    changeLike( liked);
+    changeLike(liked);
     await changeLikeAction(formData);
   };
+
   return (
     <form action={clientAction}>
       <input
@@ -27,7 +29,7 @@ function LikeButton({ liked, post,id }) {
         name={"post"}
         value={`${post.id}%${liked ? "1" : "0"}`}
       />
-      <SubmitButtonIcon>
+      <SubmitButtonIcon optimistic={true}>
         {!liked ? (
           <HeartOutline className="size-6" />
         ) : (

@@ -13,13 +13,12 @@ import LikeButton from "./LikeButton";
 async function PostFooter({ post }) {
   const session = await auth();
   const commentCount = await getCommentsCount(post.id);
-  const liked = post.likes?.includes(session.user.userId) ?? false;
   const bookmarked = session.user.bookmarks.includes(post.id);
 
   return (
     <div className="py-4 border-t-lightBlue border-t-[1px] pb-4 border-opacity-25 flex justify-between items-center">
       <div className="flex items-center gap-4">
-        <LikeButton post={post} liked={liked} id={session.user.userId} />
+        <LikeButton post={post} id={session.user.userId} />
         <label htmlFor={`${post.id}`}>
           <button className="text-lightBlue font-extralight flex items-center gap-2 text-sm hover:opacity-40 transition-all duration-300">
             <ChatBubbleBottomCenterIcon className="size-6" />
@@ -27,7 +26,11 @@ async function PostFooter({ post }) {
           </button>
         </label>
       </div>
-      <BookmarkButton bookmarked={bookmarked} postId={post.id} />
+      <BookmarkButton
+        bookmarks={session.user.bookmarks}
+        bookmarked={bookmarked}
+        postId={post.id}
+      />
     </div>
   );
 }

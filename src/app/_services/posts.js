@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import supabase from "../_lib/supabase";
 
 /**
@@ -95,7 +96,7 @@ export const getPostById = async (post_id) => {
       )
       .eq("id", post_id)
       .single();
-
+              if (!data) return notFound();
     if (error) {
       throw new Error("Error fetching post: " + error.message);
     }

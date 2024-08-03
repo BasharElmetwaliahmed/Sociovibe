@@ -104,13 +104,22 @@ export const changeBookMarkAction = async (formData) => {
 };
 
 export const deletePostAction = async (formData) => {
-  const postId = formData.get("postId");
-  await deletePost(postId);
-  revalidatePath("/");
-  revalidatePath("/profile");
-  revalidatePath("/bookmarks");
-  revalidatePath(`/posts/${postId}`);
-  revalidatePath(`/profile/${session.user.userId}/posts`);
+  try {
+    const postId = formData.get("postId");
+
+    await deletePost(postId);
+    const pathname = formData.get("pathname");
+  if (pathname.split("/")[1] === "posts" && pathname.split("/").length == 3){
+    redirect('/')
+  }
+    revalidatePath("/");
+    revalidatePath("/profile");
+    revalidatePath("/bookmarks");
+    revalidatePath(`/profile/${session.user.userId}/posts`);
+  } catch (e) {
+    console.error(e.message);
+    throw new Error("An error occurred While deleting: " + e.message);
+  }
 };
 
 export const addCommentAction = async (formData) => {

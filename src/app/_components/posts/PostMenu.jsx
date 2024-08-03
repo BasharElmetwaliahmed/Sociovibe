@@ -10,10 +10,14 @@ import {
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import Menus from "../Menus";
-import Spinner from "../Spinner";
 import SpinnerMini from "../SpinnerMini";
+import { usePathname } from "next/navigation";
 
 function PostMenu({ post: { id, text } }) {
+  const pathname = usePathname();
+  const path =
+    pathname.split("/")[1] === "posts" && pathname.split("/").length == 3;
+
   return (
     <>
       <Menus>
@@ -21,10 +25,13 @@ function PostMenu({ post: { id, text } }) {
           <EllipsisHorizontalIcon className="w-6 font-bold" />
         </Menus.Toggle>
         <Menus.List id={id}>
-          <form action={deletePostAction}>
-            <input type="hidden" name="postId" value={id} />
-            <DeleteButton />
-          </form>
+          {!path && (
+            <form action={deletePostAction}>
+              <input type="hidden" name="postId" value={id} />
+              <input type="hidden" name="pathname" value={pathname} />
+              <DeleteButton />
+            </form>
+          )}
 
           <Link href={`posts/${id}/edit`}>
             <Menus.Button>
@@ -32,7 +39,7 @@ function PostMenu({ post: { id, text } }) {
               edit
             </Menus.Button>
           </Link>
-          {text && (
+          {
             <Menus.Button
               click={() => {
                 navigator.clipboard.writeText(
@@ -42,7 +49,7 @@ function PostMenu({ post: { id, text } }) {
               <ClipboardIcon className="size-4" />
               Copy
             </Menus.Button>
-          )}
+          }
         </Menus.List>
       </Menus>
     </>
