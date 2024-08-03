@@ -33,7 +33,7 @@ function PostMenu({ post: { id, text } }) {
             </form>
           )}
 
-          <Link href={`posts/${id}/edit`}>
+          <Link href={`/posts/${id}/edit`}>
             <Menus.Button>
               <PencilIcon className="size-4" />
               edit
