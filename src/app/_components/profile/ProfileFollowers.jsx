@@ -8,7 +8,7 @@ function ProfileFollowers({ followers }) {
     <Swiper spaceBetween={3} slidesPerView={5} >
       {followers.map((follower) => (
         <SwiperSlide key={follower.id}>
-          <Link href={`/posts/${follower.id}`} className="block w-20 h-20">
+          <Link href={`/profile/${follower.id}`} className="block w-20 h-20">
             <Follower follower={follower} />
           </Link>
         </SwiperSlide>
