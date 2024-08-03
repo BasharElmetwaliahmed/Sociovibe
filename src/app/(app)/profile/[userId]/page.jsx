@@ -4,14 +4,16 @@ import { getUserProfileWithStats } from "@/app/_lib/services";
 import { notFound } from "next/navigation";
 
 export const generateMetadata = async function ({ params }) {
-  const { fullName } = await getUser(params.userId);
+  const data = await getUser(params.userId);
+  if(!data) notFound() 
   return {
-    title: fullName,
+    title: data.fullName,
   };
 };
 
 async function Page({ params }) {
   const user = await getUserProfileWithStats(params.userId);
+  if(!user) return notFound();
   return (
     <div className="-mt-[15px]">
       <Profile user={user} />

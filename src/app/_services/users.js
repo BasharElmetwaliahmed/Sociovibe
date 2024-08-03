@@ -31,7 +31,7 @@ export const getUser = async (id) => {
   }
   
 
-  if (!data) {
+  if (!data.fullName) {
    return notFound();
   }
 
