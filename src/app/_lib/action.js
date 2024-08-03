@@ -267,10 +267,8 @@ export const deleteAccountAction = async () => {
   await signOut({
     redirectTo: "/login",
   });
-};
-
   await deleteUser(session.user.userId);
-
+};
 
 export const changeFollowings = async (formData) => {
   const followingUser = Number(formData.get("userId"));
