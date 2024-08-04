@@ -1,9 +1,10 @@
-import Spinner from "@/app/_components/Spinner"
+import ProfileSkeleton from '@/app/_components/profile/ProfileSkeleton'
+import React from 'react'
 
 function loading() {
   return (
-    <div className="h-layout flex justify-center items-center">
-      <Spinner />
+    <div>
+      <ProfileSkeleton />
     </div>
   );
 }
