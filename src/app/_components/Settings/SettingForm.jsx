@@ -35,30 +35,32 @@ export default function SettingForm({user}) {
    
   };
   return (
-    <form
-      className="max-w-[500px] py-6 flex flex-col gap-8 justify-end items-end "
-      action={clientAction}>
-      <Input
-        label="email"
-        id="email"
-        type={"email"}
-        placeholder={"Email example@gmail.com"}
-        disabled={true}
-        defaultValue={user.email}
-      />
-      <Input
-        label="Full name"
-        id="fullName"
-        type={"text"}
-        placeholder={"full name"}
-        defaultValue={user.fullName}
-        error={state.fullName}
-      />
-      <Textarea defaultValue={user.bio} id={"bio"} error={state.bio} />
-      <input type={"hidden"} name={"id"} value={user.id} />
-      <SaveButton />
-      <DeleteAccount />
-    </form>
+    <>
+      <form
+        className="max-w-[500px] py-6 flex flex-col gap-8 justify-end items-end "
+        action={clientAction}>
+        <Input
+          label="email"
+          id="email"
+          type={"email"}
+          placeholder={"Email example@gmail.com"}
+          disabled={true}
+          defaultValue={user.email}
+        />
+        <Input
+          label="Full name"
+          id="fullName"
+          type={"text"}
+          placeholder={"full name"}
+          defaultValue={user.fullName}
+          error={state.fullName}
+        />
+        <Textarea defaultValue={user.bio} id={"bio"} error={state.bio} />
+        <input type={"hidden"} name={"id"} value={user.id} />
+        <SaveButton />
+        <DeleteAccount />
+      </form>
+    </>
   );
 }
 

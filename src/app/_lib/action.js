@@ -265,7 +265,6 @@ export const deleteAccountAction = async () => {
   const session = await auth();
   if (!session) throw new Error("You must be logged in!");
   await deleteUser(session.user.userId);
-
 };
 
 export const changeFollowings = async (formData) => {

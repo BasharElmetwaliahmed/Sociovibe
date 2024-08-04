@@ -15,6 +15,7 @@ function ButtonIcon({ children, type, className, onClick, disabled }) {
 
   return (
     <button
+     type="button"
       className={`${baseStyle} ${typeStyle} ${className} disabled:bg-gray-700 disabled:cursor-not-allowed `}
       disabled={disabled}
       onClick={onClick}>
