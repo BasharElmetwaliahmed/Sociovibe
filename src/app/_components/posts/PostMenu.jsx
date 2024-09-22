@@ -12,9 +12,14 @@ import Link from "next/link";
 import Menus from "../Menus";
 import SpinnerMini from "../SpinnerMini";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-function PostMenu({ post: { id, text } }) {
+function PostMenu({ post }) {
+  const { id, text, user_id } = post;
+  const { data } = useSession();
+  const { user } = data;
   const pathname = usePathname();
+  console.log(post, user);
   const path =
     pathname.split("/")[1] === "posts" && pathname.split("/").length == 3;
 
@@ -25,20 +30,24 @@ function PostMenu({ post: { id, text } }) {
           <EllipsisHorizontalIcon className="w-6 font-bold" />
         </Menus.Toggle>
         <Menus.List id={id}>
-          {!path && (
-            <form action={deletePostAction}>
-              <input type="hidden" name="postId" value={id} />
-              <input type="hidden" name="pathname" value={pathname} />
-              <DeleteButton />
-            </form>
-          )}
+          {user_id == user.userId && (
+            <>
+              {!path && (
+                <form action={deletePostAction}>
+                  <input type="hidden" name="postId" value={id} />
+                  <input type="hidden" name="pathname" value={pathname} />
+                  <DeleteButton />
+                </form>
+              )}
 
-          <Link href={`/posts/${id}/edit`}>
-            <Menus.Button>
-              <PencilIcon className="size-4" />
-              edit
-            </Menus.Button>
-          </Link>
+              <Link href={`/posts/${id}/edit`}>
+                <Menus.Button>
+                  <PencilIcon className="size-4" />
+                  edit
+                </Menus.Button>
+              </Link>
+            </>
+          )}
           {
             <Menus.Button
               click={() => {

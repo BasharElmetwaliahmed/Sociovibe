@@ -8,7 +8,6 @@ function FollowButton({ followed }) {
   const { pending } = useFormStatus();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
   const search = searchParams.get("search");
 
   return (

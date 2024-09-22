@@ -1,3 +1,4 @@
+'use server'
 import supabase from "../_lib/supabase";
 import { getUser } from "./users";
 import { auth } from "../_lib/auth";
@@ -85,35 +86,38 @@ export const getFollowing = async (userId, fullData = true, top = false) => {
   return followingDetails;
 };
 
-/**
- * Changes the follow status of a user.
- */
-// export const changeFollowings = async (formData) => {
-//   const followingUser = Number(formData.get("userId"));
-//   const session = await auth();
-//   const followerUser = session.user.userId;
-//   const following = session.user.following;
-//   const followed = following.find(
-//     (user) => user.following_id === followingUser
-//   );
 
-//   if (followed) {
-//     await unfollow(followerUser, followingUser);
-//   } else {
-//     await follow(followerUser, followingUser);
-//   }
+ /** Changes the follow status of a user.**/
+ 
+export const changeFollowings = async (formData) => {
+  const followingUser = Number(formData.get("userId"));
+  const session = await auth();
+  const followerUser = session.user.userId;
+  const following = session.user.following;
+  const followed = following.find(
+    (user) => user.id === followingUser
+  );
+  console.log(followed,followerUser,following)
 
-//   revalidatePath("/friends");
-// };
+  if (followed) {
+    await unfollow(followerUser, followingUser);
+  } else {
+    await follow(followerUser, followingUser);
+  }
+
+  revalidatePath("/friends");
+};
 
 /**
  * Follows a user.
  */
 export const follow = async (followerId, followingId) => {
+  console.log(followerId)
   try {
     const { error } = await supabase
       .from("following")
       .insert([{ follower_id: followerId, following_id: followingId }]);
+      console.log('hello')
 
     if (error) throw error;
   } catch (error) {

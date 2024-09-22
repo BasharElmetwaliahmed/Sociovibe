@@ -1,5 +1,5 @@
-import { changeFollowings } from "@/app/_lib/action";
 import { auth } from "@/app/_lib/auth";
+import { changeFollowings } from "@/app/_services/follows";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
